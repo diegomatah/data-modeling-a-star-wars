@@ -24,14 +24,14 @@ class Personajes(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(250), primary_key=True, nullable=False)
     homeworld= Column(String(250), ForeignKey('planetas.name'),nullable=False)
-
+    planetaspersonaje = relationship ('Planetas')
 class Planetas(Base):
     __tablename__ = 'planetas'
     # Here we define columns for the table person
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
     name = Column(String(250), primary_key=True, nullable=False)
-             
+
 
 class Favoritospersonajes(Base):
     __tablename__ = 'favoritospersonajes'
@@ -40,7 +40,8 @@ class Favoritospersonajes(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(250),ForeignKey('user.name'))
     namepersonaje = Column(String(250), ForeignKey('personajes.name'))
-
+    favoritosuser = relationship ('User')
+    favoritopersonaje = relationship ('Personajes')
 class Favoritosplanetas(Base):
     __tablename__ = 'favoritosplanetas'
     # Here we define columns for the table address.
@@ -48,8 +49,8 @@ class Favoritosplanetas(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(250),ForeignKey('user.name'))
     nameplanetas = Column(String(250), ForeignKey('planetas.name'))
-    
-
+    favoritosuser = relationship ('User')
+    Favoritosplanetas = relationship ('Planetas')
     def to_dict(self):
         return {}
 
