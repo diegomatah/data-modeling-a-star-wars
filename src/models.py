@@ -8,23 +8,47 @@ from eralchemy import render_er
 
 Base = declarative_base()
 
-class Person(Base):
-    __tablename__ = 'person'
+class User(Base):
+    __tablename__ = 'user'
     # Here we define columns for the table person
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
+    name = Column(String(250), primary_key=True, nullable=False)
+    email = Column(String(50),nullable=False)
+    password = Column(String(20),nullable=False)
 
-class Address(Base):
-    __tablename__ = 'address'
+class Personajes(Base):
+    __tablename__ = 'personajes'
+    # Here we define columns for the table person
+    # Notice that each column is also a normal Python instance attribute.
+    id = Column(Integer, primary_key=True)
+    name = Column(String(250), primary_key=True, nullable=False)
+    homeworld= Column(String(250), ForeignKey('planetas.name'),nullable=False)
+
+class Planetas(Base):
+    __tablename__ = 'planetas'
+    # Here we define columns for the table person
+    # Notice that each column is also a normal Python instance attribute.
+    id = Column(Integer, primary_key=True)
+    name = Column(String(250), primary_key=True, nullable=False)
+             
+
+class Favoritospersonajes(Base):
+    __tablename__ = 'favoritospersonajes'
     # Here we define columns for the table address.
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    street_name = Column(String(250))
-    street_number = Column(String(250))
-    post_code = Column(String(250), nullable=False)
-    person_id = Column(Integer, ForeignKey('person.id'))
-    person = relationship(Person)
+    name = Column(String(250),ForeignKey('user.name'))
+    namepersonaje = Column(String(250), ForeignKey('personajes.name'))
+
+class Favoritosplanetas(Base):
+    __tablename__ = 'favoritosplanetas'
+    # Here we define columns for the table address.
+    # Notice that each column is also a normal Python instance attribute.
+    id = Column(Integer, primary_key=True)
+    name = Column(String(250),ForeignKey('user.name'))
+    nameplanetas = Column(String(250), ForeignKey('planetas.name'))
+    
 
     def to_dict(self):
         return {}
